@@ -38,7 +38,6 @@ public class RepositoryUser implements Repository<User, Integer> {
             throw new DBException(e.getMessage());
         } finally {
             Database.closeStatement(pstm);
-            Database.closeConnection();
         }
     }
 
@@ -69,7 +68,6 @@ public class RepositoryUser implements Repository<User, Integer> {
             throw new DBException(e.getMessage());
         } finally {
             Database.closeStatement(pstm);
-            Database.closeConnection();
         }
     }
 
@@ -98,11 +96,9 @@ public class RepositoryUser implements Repository<User, Integer> {
         } finally {
             Database.closeResultSet(rs);
             Database.closeStatement(pstm);
-            Database.closeConnection();
         }
     }
 
-    @Override
     public List<User> findAll() throws SQLException {
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -127,7 +123,6 @@ public class RepositoryUser implements Repository<User, Integer> {
         } finally {
             Database.closeResultSet(rs);
             Database.closeStatement(pstm);
-            Database.closeConnection();
         }
     }
 
@@ -142,7 +137,7 @@ public class RepositoryUser implements Repository<User, Integer> {
 
             pstm = Database.getConnection().prepareStatement(query);
             pstm.setInt(1, k);
-            pstm.executeUpdate();
+            pstm.execute();
 
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
@@ -159,5 +154,4 @@ public class RepositoryUser implements Repository<User, Integer> {
         user.setSenha(rs.getString("senha"));
         return user;
     }
-
 }
