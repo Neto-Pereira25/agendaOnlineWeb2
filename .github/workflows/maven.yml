@@ -9,12 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read         # Permite ler o conteúdo do repositório
-      security-events: write # Permite gravar eventos de segurança
-      dependencies: write    # Permite enviar o gráfico de dependências
-
+    
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
