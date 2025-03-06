@@ -160,22 +160,4 @@ public class RepositoryUser implements Repository<User, Integer> {
         return user;
     }
 
-    public static void main(String[] args) {
-        User u = new User();
-
-        u.setId(1);
-        u.setName("Pedro Purple");
-        u.setEmail("pedro@gmail.com");
-        u.setSenha("123456");
-
-        RepositoryUser repo = new RepositoryUser();
-        try {
-            repo.delete(1);
-            // List<User> users = repo.findAll();
-            // System.out.println(users);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
