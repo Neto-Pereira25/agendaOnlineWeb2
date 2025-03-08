@@ -5,7 +5,7 @@ public class User {
     private int id;
     private String name;
     private String email;
-    private String senha;
+    private String password;
 
     public int getId() {
         return id;
@@ -31,17 +31,17 @@ public class User {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String senha) {
+        this.password = senha;
     }
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + name + ", email=" + email + ", senha=" + senha + "]";
+        return "User [id=" + id + ", name=" + name + ", email=" + email + ", senha=" + password + "]";
     }
 
 }

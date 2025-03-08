@@ -31,7 +31,7 @@ public class RepositoryUser implements Repository<User, Integer> {
 
             pstm.setString(1, u.getName());
             pstm.setString(2, u.getEmail());
-            pstm.setString(3, u.getSenha());
+            pstm.setString(3, u.getPassword());
 
             pstm.execute();
         } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class RepositoryUser implements Repository<User, Integer> {
 
             pstm.setString(1, u.getName());
             pstm.setString(2, u.getEmail());
-            pstm.setString(3, u.getSenha());
+            pstm.setString(3, u.getPassword());
             pstm.setInt(4, u.getId());
 
             pstm.execute();
@@ -151,7 +151,7 @@ public class RepositoryUser implements Repository<User, Integer> {
         user.setId(rs.getInt("id"));
         user.setName(rs.getString("nome"));
         user.setEmail(rs.getString("email"));
-        user.setSenha(rs.getString("senha"));
+        user.setPassword(rs.getString("senha"));
         return user;
     }
 }
