@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar dados do usuário</title>
+</head>
+
+<body>
+    <div th:replace="~{components/navBar :: menu}"></div>
+    <div class="w-75 mx-auto my-2 bg-light p-3 rounded">
+        <div class="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+            <h2 class="text-center text-primary mb-4">Atualizar Dados do Usuário</h2>
+            <form method="post" action="#" th:action="@{/updateuser}" th:object="${user}">
+
+                <!-- Name input -->
+                <div class="form-floating mb-4">
+                    <input type="text" id="floatingRegisterName" class="form-control" placeholder="nome" name="name"
+                        th:field="*{name}" />
+                    <label for="floatingRegisterName">Name</label>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-floating mb-4">
+                    <input type="email" id="floatingRegisterEmail" class="form-control" placeholder="email" name="email"
+                        th:field="*{email}" />
+                    <label for="floatingRegisterEmail">Email</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-floating mb-4">
+                    <input type="password" id="floatingRegisterPassword" class="form-control" placeholder="senha"
+                        name="password" />
+                    <label for="floatingRegisterPassword">Senha</label>
+                </div>
+
+                <!-- Repeat Password input -->
+                <div class="form-floating mb-4">
+                    <input type="password" id="floatingRegisterRepeatPassword" class="form-control"
+                        placeholder="repita a senha" name="repeatPassword" />
+                    <label for="floatingRegisterRepeatPassword">Repita a senha</label>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Atualizar Dados</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:replace="~{components/navBar :: bootstrap}"></div>
+</body>
+
+</html>

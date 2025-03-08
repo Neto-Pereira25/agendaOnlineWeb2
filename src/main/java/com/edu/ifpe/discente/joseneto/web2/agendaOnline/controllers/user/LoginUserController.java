@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.db.DBException;
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.entities.User;
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.repositories.RepositoryUser;
 
@@ -91,5 +90,74 @@ public class LoginUserController {
             this.error = null;
             return "index";
         }
+    }
+
+    @RequestMapping({ "/updateuser" })
+    public String updateuser(Model model, @PathParam("name") String name, @PathParam("email") String email,
+            @PathParam("password") String password, @PathParam("repeatPassword") String repeatPassword) {
+
+        try {
+            if (name.isEmpty() || email.isEmpty()) {
+                throw new IllegalArgumentException("Preencha todos os campos");
+            }
+
+            if (!password.equals(repeatPassword)) {
+                throw new IllegalArgumentException("As senhas devem ser iguais");
+            }
+
+            System.out.println();
+            System.out.println(name);
+            System.out.println(email);
+            System.out.println(password);
+            System.out.println(repeatPassword);
+            System.out.println(this.user);
+            System.out.println();
+
+            user.setName(name);
+            user.setEmail(email);
+
+            if (!(password.isEmpty() || repeatPassword.isEmpty())) {
+                user.setPassword(PASSWORD_ENCODER.encode(password));
+            }
+
+            REPOSITORY_USER.update(user);
+
+            this.msg = "Dados atualizados com sucesso";
+            model.addAttribute("msg", this.msg);
+            this.msg = null;
+
+        } catch (IllegalArgumentException e) {
+            this.error = e.getMessage();
+            model.addAttribute("error", this.error);
+            this.error = null;
+        } catch (SQLException e) {
+            this.error = e.getMessage();
+            model.addAttribute("error", this.error);
+            this.error = null;
+        } catch (Exception e) {
+            this.error = "Falha ao atualizar os dados do usuario";
+            model.addAttribute("error", this.error);
+            this.error = null;
+        }
+
+        return "pages/user/userData";
+    }
+
+    // Rotas de navegação
+    @RequestMapping({ "/updateProfile" })
+    public String updateUserData(Model model) {
+        User user = (User) session.getAttribute("user");
+
+        if (user != null) {
+            model.addAttribute("user", user); // Passa o objeto 'user' para o modelo
+            return "pages/user/updateUserData"; // Página de edição do usuário
+        } else {
+            return "index"; // Se não estiver logado, redireciona para o login
+        }
+    }
+
+    @RequestMapping({ "/profile" })
+    public String profile(Model model) {
+        return "pages/user/userData";
     }
 }

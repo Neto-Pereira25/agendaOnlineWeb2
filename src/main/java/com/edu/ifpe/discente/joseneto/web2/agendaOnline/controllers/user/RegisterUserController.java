@@ -16,7 +16,7 @@ public class RegisterUserController {
 
     private String msg = null;
     private String error = null;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     private final RepositoryUser repositoryUser = new RepositoryUser();
 
@@ -41,7 +41,7 @@ public class RegisterUserController {
             User u = new User();
             u.setName(name);
             u.setEmail(email);
-            u.setPassword(passwordEncoder.encode(password));
+            u.setPassword(PASSWORD_ENCODER.encode(password));
 
             repositoryUser.insert(u);
 
