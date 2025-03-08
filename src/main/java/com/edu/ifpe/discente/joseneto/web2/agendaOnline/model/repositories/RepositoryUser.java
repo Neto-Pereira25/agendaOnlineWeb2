@@ -99,6 +99,34 @@ public class RepositoryUser implements Repository<User, Integer> {
         }
     }
 
+    public User findByEmail(String email) throws SQLException {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            String query = """
+                    SELECT *
+                    FROM usuario
+                    WHERE email LIKE ?
+                    """;
+
+            pstm = Database.getConnection().prepareStatement(query);
+            pstm.setString(1, email);
+            rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                return instantiatedUser(rs);
+            }
+
+            return null;
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        } finally {
+            Database.closeResultSet(rs);
+            Database.closeStatement(pstm);
+        }
+    }
+
     public List<User> findAll() throws SQLException {
         PreparedStatement pstm = null;
         ResultSet rs = null;

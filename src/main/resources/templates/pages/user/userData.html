@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário</title>
+</head>
+
+<body>
+    <div th:replace="~{components/navBar :: menu}"></div>
+    <div>
+        <div class="w-75 mx-auto my-2 bg-light p-3 rounded">
+            <h2 class="text-center text-primary mb-4">Informações do Usuário</h2>
+            <div class="row">
+                <!-- Coluna para Nome -->
+                <div class="col-md-6 mb-3">
+                    <h4 class="fw-bold">Nome:</h4>
+                    <p class="fs-5" th:text="${session.user.name}"></p>
+                </div>
+
+                <!-- Coluna para Email -->
+                <div class="col-md-6 mb-3">
+                    <h4 class="fw-bold">Email:</h4>
+                    <p class="fs-5" th:text="${session.user.email}"></p>
+                </div>
+            </div>
+
+            <!-- Botão para editar ou mais ações -->
+            <div class="text-center">
+                <a href="//editar" class="btn btn-primary btn-lg">Editar Perfil</a>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{components/navBar :: bootstrap}"></div>
+</body>
+
+</html>

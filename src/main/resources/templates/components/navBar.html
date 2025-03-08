@@ -10,7 +10,7 @@
 <body>
     <div th:fragment="menu">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark bg-gradient">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark bg-gradient" th:if="${session.user} != null">
             <div class="container-fluid">
                 <a class="navbar-brand text-white" href="/">Conexione</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -51,7 +51,7 @@
 
                     </ul>
                     <div class="d-flex flex-row flex-md-row-reverse">
-                        <a class="btn btn-danger justify-content-center align-item-center" href="#">
+                        <a class="btn btn-danger justify-content-center align-item-center" href="/logout">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -64,10 +64,16 @@
             </div>
         </nav>
 
-        <div class="alert alert-info" th:if="${msg}!=null">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark bg-gradient" th:if="${session.user} == null">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="/">Conexione</a>
+            </div>
+        </nav>
+
+        <div class="alert alert-info" th:if="${msg} != null">
             <small th:text="${msg}"></small>
         </div>
-        <div class="alert alert-danger" th:if="${error}!=null">
+        <div class="alert alert-danger" th:if="${error} != null">
             <small th:text="${error}"></small>
         </div>
 

@@ -10,7 +10,7 @@
 <body>
     <div th:replace="~{components/navBar :: menu}"></div>
 
-    <div class="w-75 mx-auto my-2 bg-light p-3 rounded">
+    <div class="w-75 mx-auto my-2 bg-light p-3 rounded" th:if="${session.user} == null">
         <!-- Pills navs -->
         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
             <li class="nav-item" role="presentation">
@@ -27,7 +27,7 @@
         <!-- Pills content -->
         <div class="tab-content">
             <div class="tab-pane fade" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-                <form method="post" action="">
+                <form method="post" action="/login">
 
                     <!-- Email input -->
                     <div class="form-floating mb-4">
@@ -87,6 +87,77 @@
             </div>
         </div>
     </div>
+
+    <div class="w-75 mx-auto my-2 bg-light p-3 rounded" th:if="${session.user} != null">
+        <h2 class="text-center text-primary mb-4">Bem vindo ao Sistema Conexione</h2>
+        <p class="fs-5">Como um usuário do nosso sistema você pode realizar as seguintes operações:</p>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <a class="fw-bold btn btn-primary" data-bs-toggle="collapse" href="#collapseMyContacts" role="button"
+                    aria-expanded="false" aria-controls="collapseMyContacts">Meus Contatos:</a>
+                <div class="collapse " id="collapseMyContacts">
+                    <div class="card card-body my-2">
+                        <p class="text-justify"><span class="fw-bold">Adicionar Contatos</span> -> Você pode cadastrar
+                            novos contatos, basta
+                            clicar
+                            em meus contatos no menu
+                            de navegação e depois clicar em adicionar contato. Você será redirecionado para outra página
+                            e
+                            lá poderá cadastrar um novo contato.</p>
+                    </div>
+
+                    <div class="card card-body my-2 text-justify">
+                        <p class="text-justify"><span class="fw-bold">Pesquisar Contato</span> -> Você pode pesquisar
+                            por um ou mais contatos
+                            que
+                            tenham um determinado nome,
+                            basta clicar em meus contatos no menu de navegação e depois clicar em pesquisar contato.
+                            Você
+                            será redirecionado para outra página e lá você pode digitar uma palavra para pesquisar os
+                            contatos que combinem com a palavra informada.
+                        </p>
+                    </div>
+
+                    <div class="card card-body my-2">
+                        <p class="text-justify"><span class="fw-bold">Listar Todos os Contatos</span> -> Você pode
+                            listar todos os seus
+                            contatos,
+                            basta clicar em meus
+                            contatos no menu de navegação e depois clicar em lista de contatos. Você será redirecionado
+                            para
+                            outra página contendo a lista com todos os seus contatos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <a class="fw-bold btn btn-primary" data-bs-toggle="collapse" href="#collapseProfile" role="button"
+                    aria-expanded="false" aria-controls="collapseProfile">Perfil:</a>
+                <div class="collapse" id="collapseProfile">
+                    <div class="card card-body my-2">
+                        <p class="text-justify"><span class="fw-bold">Ver Perfil</span> -> Você pode ver as informações
+                            do seu perfil, basta clicar em perfil no menu de navegação, depois clicar em ver perfil.
+                            Você será redirecionado para uma página com as informações do seu perfil.</p>
+                    </div>
+
+                    <div class="card card-body my-2 text-justify">
+                        <p class="text-justify"><span class="fw-bold">Editar Perfil</span> -> Você pode editar suas
+                            informações de perfil, basta clicar em perfil no menu de navegação, depois clicar em editar
+                            perfil. Você será redirecionado para uma página onde poderá editar seus dados de usuário.
+                        </p>
+                    </div>
+
+                    <div class="card card-body my-2">
+                        <p class="text-justify"><span class="fw-bold">Alterar Senha</span> -> Você pode alterar sua
+                            senha, basta você clicar em perfil no menu de navegação, depois em alterar senha. Você será
+                            redirecionado para uma página onde poderá alterar sua senha.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div th:replace="~{components/navBar :: bootstrap}"></div>
 </body>
