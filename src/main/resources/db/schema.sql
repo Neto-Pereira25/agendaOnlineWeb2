@@ -1,0 +1,25 @@
+CREATE DATABASE IF NOT EXISTS agendaOnline;
+
+CREATE TABLE IF NOT EXISTS usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS contato (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    endereco TEXT,
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS telefone (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contato_id INT NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    tipo ENUM('Residencial', 'Comercial', 'Celular') NOT NULL,
+    FOREIGN KEY (contato_id) REFERENCES Contato(id) ON DELETE CASCADE
+);
