@@ -2,8 +2,6 @@ package com.edu.ifpe.discente.joseneto.web2.agendaOnline.controllers.contact;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.entities.Contact;
-import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.entities.Phone;
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.entities.User;
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.repositories.RepositoryContact;
-import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.repositories.RepositoryPhone;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
@@ -34,7 +30,6 @@ public class AddContactController {
     @Autowired
     private HttpSession session;
     private final RepositoryContact REPOSITORY_CONTACT = new RepositoryContact();
-    private final RepositoryPhone REPOSITORY_PHONE = new RepositoryPhone();
 
     @RequestMapping({ "/insertcontact" })
     public String insertContact(Model model, @PathParam("name") String name,
@@ -200,96 +195,6 @@ public class AddContactController {
                 model.addAttribute("error", this.error);
                 this.error = null;
             }
-            return "pages/contact/listContact";
-        } else {
-            return "index";
-        }
-    }
-
-    @RequestMapping({ "/addContactPhone/{id}" })
-    public String addContactPhone(Model model, @PathVariable("id") int id) {
-        this.user = (User) session.getAttribute("user");
-
-        if (this.user != null) {
-            try {
-                Contact c = (Contact) REPOSITORY_CONTACT.findById(id);
-
-                if (c != null) {
-                    model.addAttribute("contact_phone_add", c);
-                } else {
-                    throw new IllegalArgumentException("O contato não pode ser encontrado, tente novamente!");
-                }
-
-            } catch (IllegalArgumentException e) {
-                this.error = e.getMessage();
-                model.addAttribute("error", this.error);
-                this.error = null;
-            } catch (SQLException e) {
-                this.error = e.getMessage();
-                model.addAttribute("error", this.error);
-                this.error = null;
-            }
-            return "pages/contact/addPhone";
-        } else {
-            return "index";
-        }
-    }
-
-    @RequestMapping({ "/insertphone" })
-    public String insertPhone(Model model,
-            @ModelAttribute("contact_phone_add") Contact contact,
-            // @PathParam("contact_id") int contact_id,
-            @PathParam("number") String number,
-            @PathParam("typePhone") String typePhone) {
-        this.user = (User) session.getAttribute("user");
-
-        if (this.user != null) {
-
-            try {
-                String regex = "^(\\d{10}|\\d{11})$";
-
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(number);
-
-                if (number.isEmpty() || typePhone.isEmpty()) {
-                    throw new IllegalArgumentException("Preencha todos os campos para cadastrar um novo telefone");
-                }
-
-                if (matcher.matches()) {
-                    Phone ph = new Phone();
-                    ph.setContactId(contact.getId());
-                    ph.setPhoneNumber(number);
-                    ph.setPhoneType(typePhone);
-
-                    REPOSITORY_PHONE.insert(ph);
-
-                } else {
-                    throw new IllegalArgumentException("O número fornecido não é válido, tente novamente");
-                }
-            } catch (IllegalArgumentException e) {
-                this.error = e.getMessage();
-                model.addAttribute("error", this.error);
-                this.error = null;
-            } catch (SQLException e) {
-                this.error = e.getMessage();
-                model.addAttribute("error", this.error);
-                this.error = null;
-            }
-
-            try {
-                List<Contact> contacts = REPOSITORY_CONTACT.findAll(this.user.getId());
-
-                if (contacts != null) {
-                    model.addAttribute("user", this.user);
-                    model.addAttribute("contacts", contacts);
-                }
-
-            } catch (SQLException e) {
-                this.error = e.getMessage();
-                model.addAttribute("error", this.error);
-                this.error = null;
-            }
-
             return "pages/contact/listContact";
         } else {
             return "index";
