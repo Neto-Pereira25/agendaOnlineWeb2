@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Telefone</title>
+</head>
+
+<body>
+    <div th:replace="~{components/navBar :: menu}"></div>
+
+    <p th:text="${contact_phone_add}"></p>
+
+    <div class="w-75 mx-auto my-2 bg-light p-3 rounded">
+        <div class="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+            <h2 class="text-center text-primary mb-4">Adicionar Telefone para o Contato <span
+                    th:text="${contact_phone_add.name}"></span></h2>
+            <form method="post" action="#" th:action="@{/contact/insertphone}" th:object="${contact_phone_add}">
+
+                <input type="hidden" name="contact_id" th:field="*{id}">
+
+                <div class="form-floating mb-4">
+                    <input type="text" id="floatingRegisterNumber" class="form-control" placeholder="number"
+                        name="number" />
+                    <label for="floatingRegisterNumber">Numero</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <select id="floatingRegisterTypePhone" class="form-control" name="typePhone">
+                        <option value="" disabled selected>Selecione o Tipo</option>
+                        <option value="Residencial">Residencial</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Celular">Celular</option>
+                    </select>
+                    <label for="floatingRegisterTypePhone">Tipo</label>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Adicionar Telefone</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{components/navBar :: bootstrap}"></div>
+</body>
+
+</html>
