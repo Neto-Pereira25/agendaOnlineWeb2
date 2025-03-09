@@ -1,6 +1,7 @@
 package com.edu.ifpe.discente.joseneto.web2.agendaOnline.controllers.contact;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,9 @@ public class AddContactController {
             model.addAttribute("msg", this.msg);
             this.msg = null;
 
+            List<Contact> contacts = REPOSITORY_CONTACT.findAll(this.user.getId());
+            model.addAttribute("contacts", contacts);
+            session.setAttribute("contacts", contacts);
         } catch (IllegalArgumentException e) {
             this.error = e.getMessage();
             model.addAttribute("error", this.error);
@@ -72,6 +76,26 @@ public class AddContactController {
         if (this.user != null) {
             model.addAttribute("user", user); // Passa o objeto 'user' para o modelo
             return "pages/contact/addContact"; // Página de adicionar contato
+        } else {
+            return "index"; // Se o usuário não estiver logado, redireciona para a página inicial
+        }
+    }
+
+    @RequestMapping({ "/listAllContact" })
+    public String listAllContact(Model model) {
+        this.user = (User) session.getAttribute("user");
+
+        if (this.user != null) {
+            try {
+                List<Contact> contacts = REPOSITORY_CONTACT.findAll(this.user.getId());
+                model.addAttribute("user", user);
+                model.addAttribute("contacts", contacts);
+            } catch (SQLException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            }
+            return "pages/contact/listContact"; // Página de adicionar contato
         } else {
             return "index"; // Se o usuário não estiver logado, redireciona para a página inicial
         }
