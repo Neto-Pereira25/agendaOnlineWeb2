@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontrar contatos por nome</title>
+</head>
+
+<body>
+    <div th:replace="~{components/navBar :: menu}"></div>
+
+    <div class="w-75 mx-auto my-2 bg-light p-3 rounded">
+        <h2 class="text-center text-primary mb-4">Pesquisar Contato</h2>
+
+        <!-- Formulário de pesquisa -->
+        <form method="get" action="#" th:action="@{/contact/findContactByName}" th:object="${contactSearch}">
+            <div class="form-floating mb-4">
+                <input type="text" id="searchName" class="form-control" name="name"
+                    placeholder="Digite o nome do contato" />
+                <label for="searchName">Nome</label>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </div>
+        </form>
+
+        <!-- Exibição dos resultados da pesquisa -->
+        <div th:if="${contacts != null and contacts.size() > 0}">
+            <h3>Resultados da pesquisa:</h3>
+            <table class="table table-striped">
+                <thead>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Endereço</th>
+                </thead>
+                <tbody>
+                    <tr th:each="contact : ${contacts}" th:object="${contact}">
+                        <td th:text="*{name}"></td>
+                        <td th:text="*{email}"></td>
+                        <td th:text="*{address}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${contacts == null or contacts.size() == 0}">
+            <p>Nenhum contato encontrado.</p>
+        </div>
+    </div>
+
+    <div th:replace="~{components/navBar :: bootstrap}"></div>
+</body>
+
+</html>
