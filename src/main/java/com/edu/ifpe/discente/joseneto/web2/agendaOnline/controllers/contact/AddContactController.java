@@ -153,4 +153,30 @@ public class AddContactController {
             return "index";
         }
     }
+
+    @RequestMapping({ "/removeContact/{id}" })
+    public String removeContact(Model model, @PathVariable("id") int id) {
+        this.user = (User) session.getAttribute("user");
+
+        if (this.user != null) {
+            try {
+                Contact c = (Contact) REPOSITORY_CONTACT.findById(id);
+
+                REPOSITORY_CONTACT.delete(c.getId());
+
+                List<Contact> contacts = REPOSITORY_CONTACT.findAll(this.user.getId());
+                model.addAttribute("user", user);
+                model.addAttribute("contacts", contacts);
+
+            } catch (SQLException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            }
+            return "pages/contact/listContact";
+        } else {
+            return "index";
+        }
+    }
+
 }
