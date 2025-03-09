@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.entities.Contact;
 import com.edu.ifpe.discente.joseneto.web2.agendaOnline.model.entities.Phone;
@@ -213,6 +214,115 @@ public class PhoneController {
                     model.addAttribute("phone_list", phones);
                 }
             } catch (SQLException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            }
+
+            return "pages/contact/listPhone";
+        } else {
+            return "index";
+        }
+    }
+
+    @RequestMapping({ "/updatePhone/{id}" })
+    public String updatePhone(Model model, @PathVariable("id") int id) {
+        this.user = (User) session.getAttribute("user");
+
+        if (this.user != null) {
+            try {
+
+                Phone ph = REPOSITORY_PHONE.findById(id);
+
+                if (ph != null) {
+
+                    Contact c = REPOSITORY_CONTACT.findById(ph.getContactId());
+
+                    if (c != null) {
+                        session.setAttribute("update_phone", ph);
+                        model.addAttribute("update_phone", ph);
+                        session.setAttribute("contact_phone", c);
+                        model.addAttribute("contact_phone", c);
+                    }
+
+                }
+
+            } catch (IllegalArgumentException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            } catch (SQLException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            }
+            return "pages/phone/updatePhone";
+        } else {
+            return "index";
+        }
+    }
+
+    @RequestMapping({ "/editPhone" })
+    public String editPhone(Model model, @PathParam("phone_id") int id,
+            @PathParam("phoneType") String phoneType, @ModelAttribute("update_phone") Phone update_phone,
+            @RequestParam("phoneNumber") String phoneNumber) {
+
+        this.user = (User) session.getAttribute("user");
+
+        if (this.user != null) {
+            try {
+                if (phoneNumber.isEmpty() || phoneType.isEmpty() || phoneNumber == null || phoneType == null) {
+                    throw new IllegalArgumentException("Preencha todos os campos para cadastrar um novo telefone");
+                }
+
+                String regex = "^(\\d{10}|\\d{11})$";
+
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(phoneNumber);
+
+                if (matcher.matches()) {
+                    Phone ph = REPOSITORY_PHONE.findById(id);
+                    if (ph != null) {
+
+                        ph.setPhoneNumber(update_phone.getPhoneNumber());
+                        ph.setPhoneType(phoneType);
+
+                        REPOSITORY_PHONE.update(ph);
+                    } else {
+                        throw new IllegalArgumentException("O número fornecido não foi encontrado, tente novamente");
+                    }
+                    this.msg = "Telefone atualizado com sucesso!";
+                    model.addAttribute("msg", this.msg);
+                    this.msg = null;
+                } else {
+                    throw new IllegalArgumentException("O número fornecido não é válido, tente novamente");
+                }
+
+            } catch (IllegalArgumentException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            } catch (SQLException e) {
+                this.error = e.getMessage();
+                model.addAttribute("error", this.error);
+                this.error = null;
+            }
+
+            try {
+                Phone ph = REPOSITORY_PHONE.findById(id);
+                if (ph != null) {
+                    Contact c = REPOSITORY_CONTACT.findById(ph.getContactId());
+
+                    if (c != null) {
+                        List<Phone> phones = c.getPhones();
+
+                        model.addAttribute("current_contact", c);
+                        session.setAttribute("phone_list", phones);
+                        model.addAttribute("phone_list", phones);
+                    }
+                }
+
+            } catch (Exception e) {
                 this.error = e.getMessage();
                 model.addAttribute("error", this.error);
                 this.error = null;

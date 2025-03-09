@@ -14,7 +14,6 @@
         <h2 class="text-center text-primary mb-4">Lista de Número do Contato: <span
                 th:text="${current_contact.name}"></span>
         </h2>
-        <p th:text="${phone_list}"></p>
         <table class="table table-striped">
             <thead>
                 <th></th>
@@ -29,7 +28,7 @@
                     <td th:text="${phone.phoneType}"></td>
                     <td>
                         <div class="d-flex justify-content-center align-item-center gap-2">
-                            <a class="btn btn-primary" href="#">
+                            <a class="btn btn-primary" th:href="@{/contact/updatePhone/{id}(id=${phone.id})}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path
