@@ -69,6 +69,6 @@ public class RegisterUserController {
             return "index";
         }
 
-        return "pages/registerUser";
+        return "index";
     }
 }
